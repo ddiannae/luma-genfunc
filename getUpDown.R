@@ -11,3 +11,7 @@ l <- lapply(sets, function(set){
   write_tsv(up, paste0("data/", set, "_up.txt"), col_names = F)
   write_tsv(down, paste0("data/", set, "_down.txt"), col_names = F)
 })
+
+A = matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,1,1,-1,-1,0,0,0,0,0,0,0,0,1,1,-1,-1,
+             1,-1,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,0,0,0,1,-1), 
+           nrow = 8, ncol = 8)
