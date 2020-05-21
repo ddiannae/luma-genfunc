@@ -28,11 +28,15 @@ matrix <- matrix %>% mutate_at(vars(matches("GSM")), as.numeric) %>%
   select(Name, all_of(healthy), all_of(luma))
 
 deg <- read_tsv(paste0("data/", set, "_luma_vs_healthy.txt"))
-deg <- deg %>% select(ID, Gene.ID)
-colnames(deg) <- c("Name", "Description")
+deg <- deg %>% select(ID, Gene.symbol)
+colnames(deg) <- c("Name", "Symbol")
+deg <- deg %>% mutate(Symbol = as.character(lapply(strsplit(Symbol, "///"), "[[", 1)))
 
 matrix <- matrix %>% left_join(deg, by = "Name") %>% 
-  select(Name, Description, everything())
+  mutate(Description = "NA") %>%
+  select(Symbol, Description, everything()) %>% 
+  select(-Name) %>% filter(!is.na(Symbol))
+colnames(matrix)[1] <- "Name"
 
 write_tsv(matrix, paste0("data/", set, "_exprGSEA.txt"))
 
@@ -65,12 +69,14 @@ matrix <- matrix %>% mutate_at(vars(matches("GSM")), as.numeric) %>%
   select(Name, all_of(healthy), all_of(luma))
 
 deg <- read_tsv(paste0("data/", set, "_luma_vs_healthy.txt"))
-deg <- deg %>% select(ID, Gene.ID)
-deg <- deg %>% mutate(ID = as.character(ID))
-colnames(deg) <- c("Name", "Description")
+deg <- deg %>% select(ID, Gene.symbol) %>% mutate(ID = as.character(ID))
+colnames(deg) <- c("Name", "Symbol")
+deg <- deg %>% mutate(Symbol = as.character(lapply(strsplit(Symbol, "///"), "[[", 1)))
 
-matrix <- matrix %>% inner_join(deg, by = "Name") %>% 
-  select(Name, Description, everything())
+matrix <- matrix %>% left_join(deg, by = "Name") %>% 
+  mutate(Description = "NA") %>%
+  select(Symbol, Description, everything()) %>% 
+  select(-Name) %>% filter(!is.na(Symbol))
 
 write_tsv(matrix, paste0("data/", set, "_exprGSEA.txt"))
 
@@ -80,6 +86,7 @@ cls <- paste(paste(length(c(healthy, luma)), "2", "1", sep = "\t"),
              sep = "\n")
 write(cls, file = paste0("data/", set, "_GSEA.cls"))
 
+library(org.Hs.eg.db)
 
 ### SET TCGA
 set <- sets[3]
@@ -88,11 +95,20 @@ healthy_matrix <- read_tsv("data/healthy_cpm10_arsyn.tsv")
 healthy <- colnames(healthy_matrix)[-1]
 luma <- colnames(luma_matrix)[-1]
 matrix <- luma_matrix %>% inner_join(healthy_matrix, by = "gene")
-colnames(matrix)[1] <- "Name"
+
+matrix$Name <- mapIds(org.Hs.eg.db,
+                      keys = matrix$gene,
+                      column="SYMBOL",
+                      keytype="ENSEMBL",
+                      multiVals="first")
+
 matrix <- matrix %>% mutate(Description = "NA") %>% 
-  select(Name, Description, all_of(healthy), all_of(luma))
+  dplyr::select(Name, Description, all_of(healthy), all_of(luma)) %>%
+  filter(!is.na(Name))
+write_tsv(matrix, paste0("data/", set, "_exprGSEA.txt"))
 
 cls <- paste(paste(length(c(healthy, luma)), "2", "1", sep = "\t"), 
              paste("#", "healthy", "luma", sep = "\t"), 
              paste(c(rep.int(0, times = length(healthy)), rep.int(1, times = length(luma))), collapse = "\t"),
              sep = "\n")
+write(cls, file = paste0("data/", set, "_GSEA.cls"))
