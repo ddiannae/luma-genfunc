@@ -79,3 +79,20 @@ cls <- paste(paste(length(c(healthy, luma)), "2", "1", sep = "\t"),
              paste(c(rep.int(0, times = length(healthy)), rep.int(1, times = length(luma))), collapse = "\t"),
              sep = "\n")
 write(cls, file = paste0("data/", set, "_GSEA.cls"))
+
+
+### SET TCGA
+set <- sets[3]
+luma_matrix <- read_tsv("data/luma_cpm10_arsyn.tsv")
+healthy_matrix <- read_tsv("data/healthy_cpm10_arsyn.tsv") 
+healthy <- colnames(healthy_matrix)[-1]
+luma <- colnames(luma_matrix)[-1]
+matrix <- luma_matrix %>% inner_join(healthy_matrix, by = "gene")
+colnames(matrix)[1] <- "Name"
+matrix <- matrix %>% mutate(Description = "NA") %>% 
+  select(Name, Description, all_of(healthy), all_of(luma))
+
+cls <- paste(paste(length(c(healthy, luma)), "2", "1", sep = "\t"), 
+             paste("#", "healthy", "luma", sep = "\t"), 
+             paste(c(rep.int(0, times = length(healthy)), rep.int(1, times = length(luma))), collapse = "\t"),
+             sep = "\n")
