@@ -1,0 +1,14 @@
+userId	geneSymbol	geneName	entrezgene	gLink
+ENSG00000123500	COL10A1	collagen type X alpha 1 chain	1300	https://www.ncbi.nlm.nih.gov/gene/?term=1300
+ENSG00000108821	COL1A1	collagen type I alpha 1 chain	1277	https://www.ncbi.nlm.nih.gov/gene/?term=1277
+ENSG00000078098	FAP	fibroblast activation protein alpha	2191	https://www.ncbi.nlm.nih.gov/gene/?term=2191
+ENSG00000108932	SLC16A6	solute carrier family 16 member 6	9120	https://www.ncbi.nlm.nih.gov/gene/?term=9120
+ENSG00000173467	AGR3	anterior gradient 3, protein disulphide isomerase family member	155465	https://www.ncbi.nlm.nih.gov/gene/?term=155465
+ENSG00000060718	COL11A1	collagen type XI alpha 1 chain	1301	https://www.ncbi.nlm.nih.gov/gene/?term=1301
+ENSG00000106541	AGR2	anterior gradient 2, protein disulphide isomerase family member	10551	https://www.ncbi.nlm.nih.gov/gene/?term=10551
+ENSG00000106819	ASPN	asporin	54829	https://www.ncbi.nlm.nih.gov/gene/?term=54829
+ENSG00000160182	TFF1	trefoil factor 1	7031	https://www.ncbi.nlm.nih.gov/gene/?term=7031
+ENSG00000140284	SLC27A2	solute carrier family 27 member 2	11001	https://www.ncbi.nlm.nih.gov/gene/?term=11001
+ENSG00000170373	CST1	cystatin SN	1469	https://www.ncbi.nlm.nih.gov/gene/?term=1469
+ENSG00000138696	BMPR1B	bone morphogenetic protein receptor type 1B	658	https://www.ncbi.nlm.nih.gov/gene/?term=658
+ENSG00000256612	CYP2B7P	cytochrome P450 family 2 subfamily B member 7, pseudogene	1556	https://www.ncbi.nlm.nih.gov/gene/?term=1556
